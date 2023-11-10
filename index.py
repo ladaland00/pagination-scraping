@@ -160,7 +160,7 @@ def scrapData(indexPage):
                 except NoSuchElementException:
                     Zip = ""
                 print("INFO", {"UBINumber": UBINumber,
-                               "BusinessDbaName": BusinessDbaName or companyName,
+                               "BusinessDbaName": BusinessDbaName or companyNameText,
                                "EffectiveDate": EffectiveDate,
                                "ExpirationDate": ExpirationDate,
                                "Address1": Address1,
@@ -169,7 +169,7 @@ def scrapData(indexPage):
                                "Zip": Zip})
                 listInfo.append({
                     "UBINumber": UBINumber,
-                    "BusinessDbaName": BusinessDbaName or companyName,
+                    "BusinessDbaName": BusinessDbaName or companyNameText,
                     "EffectiveDate": EffectiveDate,
                     "ExpirationDate": ExpirationDate,
                     "Address1": Address1,
