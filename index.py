@@ -40,8 +40,9 @@ def scrapData(indexPage):
         By.XPATH, "//*[contains(@id, 'resultsArea')]/div")
     for index, listData in enumerate(listAllData):
         queryStr = listData.get_attribute('id')
-        # companyName = listData.find_element(
-        #     By.XPATH, "./table/tbody/tr[1]/td[1]")
+        companyName = listData.find_element(
+            By.XPATH, "./table/tbody/tr[1]/td[1]")
+        companyNameText = companyName.text
         # Store the current window handle
         main_window = driver.current_window_handle
         driver.execute_script("window.open('', '_blank');")  # Open a new tab
@@ -63,6 +64,8 @@ def scrapData(indexPage):
                         lblViolator = lblViolator[0]
                 except NoSuchElementException:
                     lblViolator = ""
+                # if lblViolator == "":
+                #     return
                 try:
                     dataCategory = driver.find_element(
                         By.XPATH, "//*[contains(@id, 'violation')]/div[1]/span").text
@@ -84,7 +87,7 @@ def scrapData(indexPage):
                 except NoSuchElementException:
                     City = ""
 
-                print("INFO", {"BusinessDbaName": lblViolator,
+                print("INFO", {"BusinessDbaName": lblViolator or companyNameText,
                                "ViolationNo": dataCategory,
                                "ViolationType": dataCategoryDetail,
                                "ViolationDate": ViolationDate,
@@ -92,7 +95,7 @@ def scrapData(indexPage):
                                "State": City.split(' ')[1],
                                })
                 listInfo.append({
-                    "BusinessDbaName": lblViolator,
+                    "BusinessDbaName": lblViolator or companyNameText,
                     "ViolationNo": dataCategory,
                     "ViolationType": dataCategoryDetail,
                     "ViolationDate": ViolationDate,
@@ -119,6 +122,8 @@ def scrapData(indexPage):
                     UBINumber = driver.find_element(By.ID, "UBINumber").text
                 except NoSuchElementException:
                     UBINumber = ""
+                # if UBINumber == "":
+                #     return
                 try:
                     BusinessDbaName = driver.find_element(
                         By.XPATH, "//*[contains(@id, 'BusinessDbaName')]").text
@@ -155,7 +160,7 @@ def scrapData(indexPage):
                 except NoSuchElementException:
                     Zip = ""
                 print("INFO", {"UBINumber": UBINumber,
-                               "BusinessDbaName": BusinessDbaName,
+                               "BusinessDbaName": BusinessDbaName or companyName,
                                "EffectiveDate": EffectiveDate,
                                "ExpirationDate": ExpirationDate,
                                "Address1": Address1,
@@ -164,7 +169,7 @@ def scrapData(indexPage):
                                "Zip": Zip})
                 listInfo.append({
                     "UBINumber": UBINumber,
-                    "BusinessDbaName": BusinessDbaName,
+                    "BusinessDbaName": BusinessDbaName or companyName,
                     "EffectiveDate": EffectiveDate,
                     "ExpirationDate": ExpirationDate,
                     "Address1": Address1,
